@@ -10,8 +10,14 @@
 <body>
     <h1>New Users</h1>
 
+    <h2>Through Redis</h2>
     <ul>
         <li v-repeat="user: users">@{{ user }}</li>
+    </ul>
+
+    <h2>Through Broadcasting</h2>
+    <ul>
+        <li v-repeat="username: usernames">@{{ username }}</li>
     </ul>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/0.12.15/vue.min.js"></script>
@@ -24,12 +30,17 @@
             el: 'body',
 
             data: {
-                users: []
+                users: [],
+                usernames: []
             },
 
             ready: function () {
                 socket.on('laravel_database_test-channel:UserSignedUp', function(data) {
                     this.users.push(data.username);
+                }.bind(this));
+                socket.on('laravel_database_test-channel:App\\Events\\UserSignedUp', function(data) {
+                    console.log();
+                    this.usernames.push(data.username);
                 }.bind(this));
             }
         });

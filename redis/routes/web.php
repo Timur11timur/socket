@@ -30,7 +30,7 @@ Route::get('/', function () {
 });
 
 Route::get('/broad', function () {
-    event(new UserSignedUp('JohnDoe'));
+    event(new UserSignedUp('JohnDoe - broadcast - ' . now()));
 
     return view('welcome');
 });

@@ -14,16 +14,16 @@ class UserSignedUp implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $name;
+    public $username;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($name)
+    public function __construct($username)
     {
-        $this->name = $name;
+        $this->username = $username;
     }
 
     /**
@@ -33,6 +33,6 @@ class UserSignedUp implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('test-channel');
+        return new Channel('test-channel');
     }
 }
