@@ -16,6 +16,19 @@ use Illuminate\Support\Facades\Redis;
 */
 
 Route::get('/', function () {
+    $data = [
+        'event' => 'UserSignedUp',
+        'data' => [
+            'username' => 'JohnDoe'
+        ]
+    ];
+
+    Redis::publish('test-channel', json_encode($data));
+
+    return view('welcome');
+});
+
+Route::get('/test', function () {
     Redis::set('name', 'Timur');
     Cache::put('name1', 'Timur1', 10);
 
