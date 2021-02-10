@@ -18,7 +18,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.min.js"></script>
     <script>
         // var socket = io('http://192.168.20.71:3000/');
-        var socket = io('http://127.0.0.1:3000/');
+        var socket = io('http://127.0.0.1:3000/', { transports : ['websocket'] });
 
         new Vue({
             el: 'body',
@@ -28,7 +28,7 @@
             },
 
             ready: function () {
-                socket.on('test-channel:UserSignedUp', function(data) {
+                socket.on('laravel_database_test-channel:UserSignedUp', function(data) {
                     this.users.push(data.username);
                 }.bind(this));
             }
