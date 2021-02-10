@@ -7,7 +7,46 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body>
-    <h1>Hello World!</h1>
+<body id="chat">
+    <ul id="messages">
+        <li v-repeat="message: messages">{{ message }}</li>
+    </ul>
+
+    <form v-on="submit: send">
+        <input v-model="message">
+        <button>Send</button>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.min.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.5/vue.cjs.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/0.12.15/vue.min.js"></script>
+    <script>
+        var socket = io();
+
+        new Vue({
+            el: '#chat',
+
+            data: {
+              messages: [],
+              message: ''
+            },
+
+            ready: function () {
+                socket.on('chat.message', function(message) {
+                    this.messages.push(message);
+                }.bind(this));
+            },
+
+            methods: {
+                send: function(e) {
+                    if (this.message != '') {
+                        socket.emit('chat.message', this.message);
+                        this.message = '';
+                    }
+                    e.preventDefault();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
